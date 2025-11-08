@@ -1,0 +1,40 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+bin/
+obj/
+out/
+
+# Visual Studio Code
+.vscode/
+.vs/
+*.code-workspace
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.cache
+
+# Build results
+*.dll
+*.exe
+*.pdb
+
+# NuGet Packages
+*.nupkg
+packages/
+
+# Test Results
+TestResults/
+*.trx
+
+# macOS
+.DS_Store
+*.swp
+
+# Windows
+Thumbs.db
+
+# Rider
+.idea/
