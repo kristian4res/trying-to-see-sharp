@@ -1,0 +1,18 @@
+[
+  {
+    "Id": 1,
+    "Name": "Lamington",
+    "Price": 5,
+    "StockQuantity": 20,
+    "CreatedAt": "2025-11-09T11:33:36.007017+00:00",
+    "UpdatedAt": "2025-11-09T12:32:57.393101+00:00"
+  },
+  {
+    "Id": 2,
+    "Name": "Timtam",
+    "Price": 4,
+    "StockQuantity": 25,
+    "CreatedAt": "2025-11-09T12:29:48.52882+00:00",
+    "UpdatedAt": "2025-11-09T12:29:48.528828+00:00"
+  }
+]
