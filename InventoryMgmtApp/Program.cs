@@ -106,7 +106,7 @@ namespace InventoryMgmtApp
         static void RemoveProduct(InventoryService service)
         {
             Console.WriteLine("═══ REMOVE PRODUCT ═══\n");
-
+            service.ViewAllProducts();
             int id = GetIntInput("Product ID to Remove: ");
 
             // Show product details before confirming deletion
