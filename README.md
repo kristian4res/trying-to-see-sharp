@@ -1,2 +1,3 @@
 # ms-inventory-mgmt-sys
-Microsoft full-stack developer course project
+
+A basic C#/.NET 8 console application for managing inventory.
