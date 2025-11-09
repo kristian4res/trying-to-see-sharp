@@ -11,10 +11,10 @@ namespace InventoryMgmtApp
             bool running = true;
 
             Console.Clear();
-            Console.WriteLine("╔════════════════════════════════════════════╗");
-            Console.WriteLine("║     INVENTORY MANAGEMENT SYSTEM v1.0       ║");
-            Console.WriteLine("╚════════════════════════════════════════════╝");
-            Console.WriteLine($"\n✓ Data loaded successfully ({inventoryService.GetProductCount()} products)\n");
+            Console.WriteLine("===========================================");
+            Console.WriteLine("  Inventory Management System");
+            Console.WriteLine("===========================================");
+            Console.WriteLine($"Loaded {inventoryService.GetProductCount()} products\n");
 
             while (running)
             {
@@ -25,17 +25,27 @@ namespace InventoryMgmtApp
 
                 switch (choice)
                 {
-                    case "1": AddNewProduct(inventoryService); break;
-                    case "2": SellProduct(inventoryService); break;
-                    case "3": RestockProduct(inventoryService); break;
-                    case "4": inventoryService.ViewAllProducts(); break;
-                    case "5": RemoveProduct(inventoryService); break;
+                    case "1": 
+                        AddNewProduct(inventoryService); 
+                        break;
+                    case "2": 
+                        SellProduct(inventoryService); 
+                        break;
+                    case "3": 
+                        RestockProduct(inventoryService); 
+                        break;
+                    case "4": 
+                        inventoryService.ViewAllProducts(); 
+                        break;
+                    case "5": 
+                        RemoveProduct(inventoryService); 
+                        break;
                     case "6":
                         running = false;
-                        Console.WriteLine("👋 Closing Inventory Management System...\n");
+                        Console.WriteLine("Exiting...\n");
                         break;
                     default:
-                        Console.WriteLine("❌ Invalid option. Please select 1-6.");
+                        Console.WriteLine("Invalid option. Please try again.");
                         break;
                 }
 
@@ -50,89 +60,83 @@ namespace InventoryMgmtApp
 
         static void ShowMenu()
         {
-            Console.WriteLine("┌────────────────────────────────────────────┐");
-            Console.WriteLine("│              MAIN MENU                     │");
-            Console.WriteLine("├────────────────────────────────────────────┤");
-            Console.WriteLine("│  1. Add New Product                        │");
-            Console.WriteLine("│  2. Sell Product (Reduce Stock)            │");
-            Console.WriteLine("│  3. Restock Product (Add Stock)            │");
-            Console.WriteLine("│  4. View All Products                      │");
-            Console.WriteLine("│  5. Remove Product                         │");
-            Console.WriteLine("│  6. Exit                                   │");
-            Console.WriteLine("└────────────────────────────────────────────┘");
-            Console.Write("\nSelect an option (1-6): ");
+            Console.WriteLine("\n--- Main Menu ---");
+            Console.WriteLine("1. Add New Product");
+            Console.WriteLine("2. Sell Product");
+            Console.WriteLine("3. Restock Product");
+            Console.WriteLine("4. View All Products");
+            Console.WriteLine("5. Remove Product");
+            Console.WriteLine("6. Exit");
+            Console.Write("\nEnter your choice: ");
         }
 
         static void AddNewProduct(InventoryService service)
         {
-            Console.WriteLine("═══ ADD NEW PRODUCT ═══\n");
+            Console.WriteLine("\n--- Add New Product ---\n");
 
             string name = GetStringInput("Product Name: ");
-            decimal price = GetDecimalInput("Price (£): ");
-            int quantity = GetIntInput("Stock Quantity: ");
+            decimal price = GetDecimalInput("Price: ");
+            int quantity = GetIntInput("Quantity: ");
 
             service.DisplayProductDetails(name, price, quantity);
             
-            if (GetConfirmation("Add new product?"))
+            if (GetConfirmation("Confirm add product?"))
             {
                 service.AddProduct(name, price, quantity);
             }
             else
             {
-                Console.WriteLine("❌ Product addition cancelled.");
+                Console.WriteLine("Cancelled.");
             }
         }
 
         static void SellProduct(InventoryService service)
         {
-            Console.WriteLine("═══ SELL PRODUCT ═══\n");
+            Console.WriteLine("\n--- Sell Product ---\n");
 
             int id = GetIntInput("Product ID: ");
-            int quantity = GetIntInput("Quantity to Sell: ");
+            int quantity = GetIntInput("Quantity: ");
 
             service.SellProduct(id, quantity);
         }
 
         static void RestockProduct(InventoryService service)
         {
-            Console.WriteLine("═══ RESTOCK PRODUCT ═══\n");
+            Console.WriteLine("\n--- Restock Product ---\n");
 
             int id = GetIntInput("Product ID: ");
-            int quantity = GetIntInput("Quantity to Add: ");
+            int quantity = GetIntInput("Quantity to add: ");
 
             service.RestockProduct(id, quantity);
         }
 
         static void RemoveProduct(InventoryService service)
         {
-            Console.WriteLine("═══ REMOVE PRODUCT ═══\n");
+            Console.WriteLine("\n--- Remove Product ---\n");
             service.ViewAllProducts();
-            int id = GetIntInput("Product ID to Remove: ");
+            
+            int id = GetIntInput("\nProduct ID: ");
 
-            // Show product details before confirming deletion
             var product = service.GetProductById(id);
             if (product == null)
             {
-                Console.WriteLine($"❌ Error: Product with ID {id} not found.");
+                Console.WriteLine($"Error: Product ID {id} not found.");
                 return;
             }
 
-            Console.WriteLine($"\nProduct to delete: {product}\n");
+            Console.WriteLine($"\n{product}");
 
-            if (GetConfirmation("Are you sure you want to delete this product?"))
+            if (GetConfirmation("\nDelete this product?"))
             {
                 service.RemoveProduct(id);
             }
             else
             {
-                Console.WriteLine("❌ Product deletion cancelled.");
+                Console.WriteLine("Cancelled.");
             }
         }
 
-        // ═══════════════════════════════════════════════════════════
-        // HELPER METHODS
-        // ═══════════════════════════════════════════════════════════
-
+        // Helper methods for user input
         static string GetStringInput(string prompt)
         {
             while (true)
@@ -145,7 +149,7 @@ namespace InventoryMgmtApp
                     return result;
                 }
                 
-                Console.WriteLine("❌ Error: Input cannot be empty.\n");
+                Console.WriteLine("Error: Input cannot be empty. Please try again.\n");
             }
         }
 
@@ -159,7 +163,7 @@ namespace InventoryMgmtApp
                     return result;
                 }
                 
-                Console.WriteLine("❌ Error: Please enter a valid non-negative number.\n");
+                Console.WriteLine("Error: Please enter a valid number.\n");
             }
         }
 
@@ -173,7 +177,7 @@ namespace InventoryMgmtApp
                     return result;
                 }
                 
-                Console.WriteLine("❌ Error: Please enter a valid non-negative number.\n");
+                Console.WriteLine("Error: Please enter a valid number.\n");
             }
         }
 
@@ -181,14 +185,13 @@ namespace InventoryMgmtApp
         {
             while (true)
             {
-                Console.Write($"{message} (Y/N): ");
-                string? input = Console.ReadLine()?.Trim().ToUpper();
-                Console.WriteLine();
+                Console.Write($"{message} (y/n): ");
+                string? input = Console.ReadLine()?.Trim().ToLower();
 
-                if (input == "Y") return true;
-                if (input == "N") return false;
+                if (input == "y" || input == "yes") return true;
+                if (input == "n" || input == "no") return false;
                 
-                Console.WriteLine("❌ Invalid input. Please enter Y or N.\n");
+                Console.WriteLine("Please enter y or n.");
             }
         }
     }

@@ -16,26 +16,25 @@ namespace InventoryMgmtApp.Services
             _nextId = _products.Any() ? _products.Max(p => p.Id) + 1 : 1;
         }
 
-        // Add new product
         public void AddProduct(string name, decimal price, int stockQuantity)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    Console.WriteLine("❌ Error: Product name cannot be empty.");
+                    Console.WriteLine("Error: Product name cannot be empty.");
                     return;
                 }
 
                 if (price < 0)
                 {
-                    Console.WriteLine("❌ Error: Price cannot be negative.");
+                    Console.WriteLine("Error: Price cannot be negative.");
                     return;
                 }
 
                 if (stockQuantity < 0)
                 {
-                    Console.WriteLine("❌ Error: Stock quantity cannot be negative.");
+                    Console.WriteLine("Error: Stock quantity cannot be negative.");
                     return;
                 }
 
@@ -51,17 +50,16 @@ namespace InventoryMgmtApp.Services
                 
                 if (_dataService.SaveProducts(_products))
                 {
-                    Console.WriteLine($"✅ Success: Product '{name}' added successfully!");
-                    Console.WriteLine($"   ID: {product.Id} | Price: £{price:F2} | Quantity: {stockQuantity}");
+                    Console.WriteLine($"Product '{name}' added successfully.");
+                    Console.WriteLine($"ID: {product.Id} | Price: £{price:F2} | Stock: {stockQuantity}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error adding product: {ex.Message}");
+                Console.WriteLine($"Error adding product: {ex.Message}");
             }
         }
 
-        // Update stock when sold
         public void SellProduct(int id, int quantity)
         {
             try
@@ -70,19 +68,19 @@ namespace InventoryMgmtApp.Services
                 
                 if (product == null)
                 {
-                    Console.WriteLine($"❌ Error: Product with ID {id} not found.");
+                    Console.WriteLine($"Error: Product with ID {id} not found.");
                     return;
                 }
 
                 if (quantity <= 0)
                 {
-                    Console.WriteLine("❌ Error: Quantity must be greater than 0.");
+                    Console.WriteLine("Error: Quantity must be greater than 0.");
                     return;
                 }
 
                 if (product.StockQuantity < quantity)
                 {
-                    Console.WriteLine($"❌ Error: Insufficient stock. Available: {product.StockQuantity}, Requested: {quantity}");
+                    Console.WriteLine($"Error: Not enough stock. Available: {product.StockQuantity}");
                     return;
                 }
 
@@ -91,17 +89,16 @@ namespace InventoryMgmtApp.Services
 
                 if (_dataService.SaveProducts(_products))
                 {
-                    Console.WriteLine($"✅ Success: Sold {quantity} unit(s) of '{product.Name}'");
-                    Console.WriteLine($"   Remaining stock: {product.StockQuantity}");
+                    Console.WriteLine($"Sold {quantity} unit(s) of '{product.Name}'");
+                    Console.WriteLine($"Remaining stock: {product.StockQuantity}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error selling product: {ex.Message}");
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
-        // Update stock when restocked
         public void RestockProduct(int id, int quantity)
         {
             try
@@ -110,13 +107,13 @@ namespace InventoryMgmtApp.Services
                 
                 if (product == null)
                 {
-                    Console.WriteLine($"❌ Error: Product with ID {id} not found.");
+                    Console.WriteLine($"Error: Product with ID {id} not found.");
                     return;
                 }
 
                 if (quantity <= 0)
                 {
-                    Console.WriteLine("❌ Error: Quantity must be greater than 0.");
+                    Console.WriteLine("Error: Quantity must be greater than 0.");
                     return;
                 }
 
@@ -125,40 +122,38 @@ namespace InventoryMgmtApp.Services
 
                 if (_dataService.SaveProducts(_products))
                 {
-                    Console.WriteLine($"✅ Success: Restocked {quantity} unit(s) of '{product.Name}'");
-                    Console.WriteLine($"   New stock level: {product.StockQuantity}");
+                    Console.WriteLine($"Added {quantity} unit(s) to '{product.Name}'");
+                    Console.WriteLine($"New stock: {product.StockQuantity}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error restocking product: {ex.Message}");
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
-        // View all products
         public void ViewAllProducts()
         {
             if (_products.Count == 0)
             {
-                Console.WriteLine("📦 No products in inventory.");
+                Console.WriteLine("No products in inventory.");
                 return;
             }
 
-            Console.WriteLine("\n" + new string('═', 80));
-            Console.WriteLine("                          INVENTORY PRODUCTS");
-            Console.WriteLine(new string('═', 80));
+            Console.WriteLine("\n========================================");
+            Console.WriteLine("Current Inventory");
+            Console.WriteLine("========================================");
             
             foreach (var product in _products.OrderBy(p => p.Id))
             {
                 Console.WriteLine(product);
             }
             
-            Console.WriteLine(new string('═', 80));
-            Console.WriteLine($"Total Products: {_products.Count} | Total Stock Value: £{CalculateTotalValue():F2}");
-            Console.WriteLine(new string('═', 80));
+            Console.WriteLine("========================================");
+            Console.WriteLine($"Total: {_products.Count} products | Value: £{CalculateTotalValue():F2}");
+            Console.WriteLine("========================================");
         }
 
-        // Remove product
         public void RemoveProduct(int id)
         {
             try
@@ -167,7 +162,7 @@ namespace InventoryMgmtApp.Services
 
                 if (product == null)
                 {
-                    Console.WriteLine($"❌ Error: Product with ID {id} not found.");
+                    Console.WriteLine($"Error: Product with ID {id} not found.");
                     return;
                 }
 
@@ -176,12 +171,12 @@ namespace InventoryMgmtApp.Services
 
                 if (_dataService.SaveProducts(_products))
                 {
-                    Console.WriteLine($"✅ Success: Product '{productName}' (ID: {id}) removed from inventory.");
+                    Console.WriteLine($"Product '{productName}' removed.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error removing product: {ex.Message}");
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
@@ -195,7 +190,6 @@ namespace InventoryMgmtApp.Services
             return $"Name: {name,-20} | Price: £{price,-10:F2} | Quantity: {quantity,-5}\n";
         }
 
-        // Helper method to calculate total inventory value
         private decimal CalculateTotalValue()
         {
             return _products.Sum(p => p.Price * p.StockQuantity);

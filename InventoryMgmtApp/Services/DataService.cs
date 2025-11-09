@@ -26,7 +26,7 @@ namespace InventoryMgmtApp.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"⚠️  Error loading data: {ex.Message}");
+                Console.WriteLine($"Error loading data: {ex.Message}");
                 return new List<Product>();
             }
         }
@@ -42,7 +42,7 @@ namespace InventoryMgmtApp.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"⚠️  Error saving data: {ex.Message}");
+                Console.WriteLine($"Error saving data: {ex.Message}");
                 return false;
             }
         }
