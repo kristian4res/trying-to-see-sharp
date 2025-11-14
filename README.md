@@ -1,3 +1,3 @@
-# ms-inventory-mgmt-sys
+# trying-to-see-sharp
 
-A basic C#/.NET 8 console application for managing inventory.
+A collection of various C#/.NET applications built for learning purposes.
