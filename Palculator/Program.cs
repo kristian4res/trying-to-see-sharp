@@ -4,7 +4,10 @@ namespace Palculator;
 class Program {
     static void Main()
     {
-        Cal = new TwoNumCalculator();
+        Console.WriteLine($"2 + 2 = {TwoNumCalculator.Add(2, 2)}");
+        TwoNumCalculator.DisplayNumbers();
+
+        UserInput.GreetUser();
     }
 }
 
@@ -43,5 +46,20 @@ public class TwoNumCalculator()
         {
             Console.WriteLine(i);
         }
+    }
+}
+
+public class UserInput()
+{
+    public static void GreetUser()
+    {   
+        Console.WriteLine("Hey, I'm Cal! What's your name?");
+        string userInput = Console.ReadLine();
+        
+        if (userInput.Length > 0)
+        {
+            Console.WriteLine($"Hey {userInput}, nice to meet you!");
+        }
+        return;
     }
 }
