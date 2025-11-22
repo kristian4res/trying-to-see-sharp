@@ -1,4 +1,6 @@
-﻿namespace ToDoApp
+﻿using ToDoApp.Models;
+
+namespace ToDoApp
 {
     class Program()
     {
@@ -42,18 +44,47 @@
         static void AddToDoTask()
         {
             string title = GetStringInput("Task title: ");
+            List<string> objectives = AddTaskObjectives();
             // TODO: Add functionality to add items to objectives list, loop until user exits
             return;            
         }
 
-        static string GetStringInput(string prompt)
+        // Helper methods
+        // TODO: Work in progress
+        static List<string> AddTaskObjectives()
+        {   
+            List<string> objectivesList = new List<string>([]);
+            bool running = true;
+            while (running)
+            {
+                running = false;
+    
+                string objective = GetStringInput("Objective: ");
+                objectivesList.Add(objective);
+                
+                string addMore = GetStringInput("Do you want to add another one? Y/N", ["y", "n"]).ToLower();
+                if (addMore.Equals("y"))
+                {
+                    running = true;
+                }
+                else if (addMore.Equals("n"))
+                {
+                    break;
+                }
+            };
+            
+            Console.WriteLine("Press any key to finish...");
+            Console.ReadKey();
+            return objectivesList;
+        }
+        static string GetStringInput(string prompt, List<string>? options = null)
         {
             while (true)
             {
                 Console.Write(prompt);
                 string result = Console.ReadLine()?.Trim() ?? string.Empty;
                 
-                if (!IsStringValid(result))
+                if (!IsStringValid(result) || (options != null && !IsValidOption(result, options)))
                 {
                     return result;
                 }
@@ -62,6 +93,11 @@
             }
         }
         
+        static bool IsValidOption(string? input, List<string> options) 
+        {
+            return input != null && options.Contains(input);
+        }
+
         static bool IsStringValid(string? input)
         {
             return !string.IsNullOrEmpty(input) || !string.IsNullOrEmpty(input);
