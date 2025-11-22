@@ -8,16 +8,19 @@ namespace ToDoApp.Models
         public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
         public bool IsCompleted { get; set; } = false;
 
-        public string DisplayToDoTaskDetails()
+        public void DisplayToDoTaskDetails()
         {
             var status = IsCompleted ? "✓ Completed" : "○ Pending";
             var objectives = Objectives.Count > 0 
                 ? string.Join("\n  - ", Objectives) 
                 : "No objectives";
-            
-            return $"[{Id}] {Title} ({status})\n" +
+            var details = $"[{Id}] {Title} ({status})\n" +
                 $"Created: {CreatedAt:yyyy-MM-dd HH:mm}\n" +
                 $"Objectives:\n  - {objectives}";
+
+            Console.WriteLine("Task details: \n");
+            Console.WriteLine(details);
+            return;
         }
     }
 }
