@@ -1,11 +1,16 @@
 ﻿using ToDoApp.Models;
+using ToDoApp.Services;
 
 namespace ToDoApp
 {
     class Program()
     {
+
+
         static void Main(string[] args)
         {
+            var dataService = new DataService();
+            var taskManagerService = new TaskManagerService(dataService);
             bool running = true;
 
             Console.Clear();
@@ -21,6 +26,9 @@ namespace ToDoApp
 
                 switch (choice)
                 {
+                    case "1":
+                        AddToDoTask(taskManagerService);
+                        break;
                     case "5":
                         running = false;
                         Console.WriteLine("Exiting...");
@@ -41,41 +49,40 @@ namespace ToDoApp
             Console.WriteLine("5. Exit\n");
         }
 
-        static void AddToDoTask()
+        static void AddToDoTask(TaskManagerService taskManagerService)
         {
             string title = GetStringInput("Task title: ");
             List<string> objectives = AddTaskObjectives();
-            // TODO: Add functionality to add items to objectives list, loop until user exits
-            return;            
+            
+            if (GetConfirmation("Confirm add task?"))
+            {
+                taskManagerService.AddTask(title, objectives);
+            }
+            else
+            {
+                Console.WriteLine("Cancelled task creation.\n");
+            }
         }
 
         // Helper methods
-        // TODO: Work in progress
         static List<string> AddTaskObjectives()
         {   
-            List<string> objectivesList = new List<string>([]);
-            bool running = true;
-            while (running)
+            List<string> objectives = new();  // Simpler syntax
+            
+            while (true)
             {
-                running = false;
-    
                 string objective = GetStringInput("Objective: ");
-                objectivesList.Add(objective);
+                objectives.Add(objective);
                 
-                string addMore = GetStringInput("Do you want to add another one? Y/N", ["y", "n"]).ToLower();
-                if (addMore.Equals("y"))
-                {
-                    running = true;
-                }
-                else if (addMore.Equals("n"))
+                string addMore = GetStringInput("Add another? (y/n): ", new List<string> { "y", "n" }).ToLower();
+                
+                if (addMore == "n")
                 {
                     break;
                 }
-            };
+            }
             
-            Console.WriteLine("Press any key to finish...");
-            Console.ReadKey();
-            return objectivesList;
+            return objectives;
         }
         static string GetStringInput(string prompt, List<string>? options = null)
         {
@@ -84,15 +91,21 @@ namespace ToDoApp
                 Console.Write(prompt);
                 string result = Console.ReadLine()?.Trim() ?? string.Empty;
                 
-                if (!IsStringValid(result) || (options != null && !IsValidOption(result, options)))
+                if (string.IsNullOrWhiteSpace(result))
                 {
-                    return result;
+                    Console.WriteLine("Error: Input cannot be empty. Please try again.\n");
+                    continue;
                 }
                 
-                Console.WriteLine("Error: Input cannot be empty. Please try again.\n");
+                if (options != null && !options.Contains(result))
+                {
+                    Console.WriteLine($"Error: Invalid option. Choose from: {string.Join(", ", options)}\n");
+                    continue;
+                }
+                
+                return result;
             }
         }
-        
         static bool IsValidOption(string? input, List<string> options) 
         {
             return input != null && options.Contains(input);
@@ -101,6 +114,20 @@ namespace ToDoApp
         static bool IsStringValid(string? input)
         {
             return !string.IsNullOrEmpty(input) || !string.IsNullOrEmpty(input);
+        }
+
+        static bool GetConfirmation(string message)
+        {
+            while (true)
+            {
+                Console.Write($"{message} (y/n): ");
+                string? input = Console.ReadLine()?.Trim().ToLower();
+
+                if (input == "y" || input == "yes") return true;
+                if (input == "n" || input == "no") return false;
+                
+                Console.WriteLine("Please enter y or n.");
+            }
         }
     }    
 }

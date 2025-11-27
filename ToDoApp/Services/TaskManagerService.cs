@@ -15,7 +15,7 @@ namespace ToDoApp.Services
             _taskList = _dataService.LoadTasks();
             _nextId = _taskList.Any() ? _taskList.Max(t => t.Id) + 1 : 1;
         }
-        public void AddTask(string title, List<string> objectives, bool IsCompleted)
+        public void AddTask(string title, List<string> objectives, bool IsCompleted = false)
         {
             try
             {

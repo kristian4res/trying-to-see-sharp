@@ -7,9 +7,21 @@ namespace ToDoApp.Services
     {
         private readonly string _filePath;
 
+        // TODO: Fix directory creation
         public DataService(string filePath = "Data/todoList.json")
         {
-            _filePath = filePath;
+            string projectDirectory = Directory.GetCurrentDirectory();
+            _filePath = Path.Combine(projectDirectory, filePath);
+            EnsureDataDirectoryExists(); 
+        }
+
+        private void EnsureDataDirectoryExists()
+        {
+            string? directory = Path.GetDirectoryName(_filePath);
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
         }
 
         public List<ToDoTask> LoadTasks()
@@ -35,6 +47,8 @@ namespace ToDoApp.Services
         {
             try
             {
+                EnsureDataDirectoryExists();
+
                 var options = new JsonSerializerOptions { WriteIndented = true };
                 string json = JsonSerializer.Serialize(taskList, options);
                 File.WriteAllText(_filePath, json);
