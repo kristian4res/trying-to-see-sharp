@@ -7,12 +7,9 @@ namespace ToDoApp.Services
     {
         private readonly string _filePath;
 
-        // TODO: Fix directory creation
-        public DataService(string filePath = "Data/todoList.json")
+        public DataService(string filePath = "./ToDoApp/Data/todoList.json")
         {
-            string projectDirectory = Directory.GetCurrentDirectory();
-            _filePath = Path.Combine(projectDirectory, filePath);
-            EnsureDataDirectoryExists(); 
+            _filePath = filePath;
         }
 
         private void EnsureDataDirectoryExists()
