@@ -40,6 +40,10 @@ namespace ToDoApp
 
         static void ShowMenu()
         {
+            Console.WriteLine("\n");
+            Console.WriteLine("===========================================");
+            Console.WriteLine("  To Do App");
+            Console.WriteLine("===========================================");
             Console.WriteLine("1. Add new task\n");
             Console.WriteLine("2. View task\n");
             Console.WriteLine("3. Update task\n");
