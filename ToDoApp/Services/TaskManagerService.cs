@@ -48,7 +48,8 @@ namespace ToDoApp.Services
         }
 
         public void ViewTask()
-        {
+        {   
+            // TODO: Use helper methods
             return;
         }
 
@@ -62,8 +63,27 @@ namespace ToDoApp.Services
             return;
         }
 
+        // Helper methods
+        public void DisplayAllTasks()
+        {
+            if (_taskList.Count == 0)
+            {
+                Console.WriteLine("No tasks found.");
+                return;
+            }
+
+            Console.WriteLine("\n========================================");
+            Console.WriteLine("Current tasks:");
+            Console.WriteLine("========================================");
+            foreach (var task in _taskList.OrderBy(t => t.Id))
+            {
+                Console.WriteLine($"ID: {task.Id} | Title: {task.Title} | Completed: {task.IsCompleted} | Created at: {task.CreatedAt}");
+            }
+        }
         public void DisplayTaskDetails()
         {
+            // TODO: Display specied task using id
+            // QUESTIONS: Can I access the tasklist like a hash map? to get O(1) time? Or should I convert it? If so, that's still another process? Is it in the right DS to begin with?
             return;
         }
 

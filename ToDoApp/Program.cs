@@ -12,22 +12,21 @@ namespace ToDoApp
             bool running = true;
 
             Console.Clear();
-            Console.WriteLine("===========================================");
-            Console.WriteLine("  To Do App");
-            Console.WriteLine("===========================================");
 
             while (running)
             {
                 ShowMenu();
 
                 string choice = Console.ReadLine();
-
                 switch (choice)
                 {
                     case "1":
                         AddToDoTask(taskManagerService);
                         break;
-                    case "5":
+                    case "2":
+                        ViewToDoTask(taskManagerService);
+                        break;
+                    case "6":
                         running = false;
                         Console.WriteLine("Exiting...");
                         break;
@@ -44,11 +43,12 @@ namespace ToDoApp
             Console.WriteLine("===========================================");
             Console.WriteLine("  To Do App");
             Console.WriteLine("===========================================");
-            Console.WriteLine("1. Add new task\n");
-            Console.WriteLine("2. View task\n");
-            Console.WriteLine("3. Update task\n");
-            Console.WriteLine("4. Delete task\n");
-            Console.WriteLine("5. Exit\n");
+            Console.WriteLine("1. Add new task");
+            Console.WriteLine("2. View all tasks");
+            Console.WriteLine("3. View task");
+            Console.WriteLine("4. Update task");
+            Console.WriteLine("5. Delete task");
+            Console.WriteLine("6. Exit\n");
         }
 
         static void AddToDoTask(TaskManagerService taskManagerService)
@@ -66,10 +66,18 @@ namespace ToDoApp
             }
         }
 
+        static void ViewToDoTask(TaskManagerService taskManagerService)
+        {
+            taskManagerService.DisplayAllTasks();
+            string taskId = GetStringInput("Task ID: ");
+            
+
+
+        }
         // Helper methods
         static List<string> AddTaskObjectives()
         {   
-            List<string> objectives = new();  // Simpler syntax
+            List<string> objectives = new();
             
             while (true)
             {
@@ -108,16 +116,6 @@ namespace ToDoApp
                 return result;
             }
         }
-        static bool IsValidOption(string? input, List<string> options) 
-        {
-            return input != null && options.Contains(input);
-        }
-
-        static bool IsStringValid(string? input)
-        {
-            return !string.IsNullOrEmpty(input) || !string.IsNullOrEmpty(input);
-        }
-
         static bool GetConfirmation(string message)
         {
             while (true)
