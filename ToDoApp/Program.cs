@@ -24,8 +24,13 @@ namespace ToDoApp
                         AddToDoTask(taskManagerService);
                         break;
                     case "2":
+                        ViewAllToDo(taskManagerService);
+                        break;
+                    case "3":
                         ViewToDoTask(taskManagerService);
                         break;
+                    // TODO: Add option to update task as complete
+                    // TODO: Add option to delete a task
                     case "6":
                         running = false;
                         Console.WriteLine("Exiting...");
@@ -46,7 +51,7 @@ namespace ToDoApp
             Console.WriteLine("1. Add new task");
             Console.WriteLine("2. View all tasks");
             Console.WriteLine("3. View task");
-            Console.WriteLine("4. Update task");
+            Console.WriteLine("4. Update task as complete");
             Console.WriteLine("5. Delete task");
             Console.WriteLine("6. Exit\n");
         }
@@ -66,13 +71,16 @@ namespace ToDoApp
             }
         }
 
+        static void ViewAllToDo(TaskManagerService taskManagerService)
+        {
+            taskManagerService.DisplayAllTasks();
+            return;
+        }
         static void ViewToDoTask(TaskManagerService taskManagerService)
         {
             taskManagerService.DisplayAllTasks();
             string taskId = GetStringInput("Task ID: ");
-            
-
-
+            // TODO: Add function to display details of specific taks  
         }
         // Helper methods
         static List<string> AddTaskObjectives()
