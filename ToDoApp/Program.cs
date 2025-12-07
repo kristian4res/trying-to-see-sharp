@@ -29,6 +29,8 @@ namespace ToDoApp
                     case "3":
                         ViewToDoTask(taskManagerService);
                         break;
+                    case "4":
+                        break;
                     // TODO: Add option to update task as complete
                     // TODO: Add option to delete a task
                     case "6":
@@ -70,7 +72,6 @@ namespace ToDoApp
                 Console.WriteLine("Cancelled task creation.\n");
             }
         }
-
         static void ViewAllToDo(TaskManagerService taskManagerService)
         {
             taskManagerService.DisplayAllTasks();
@@ -80,7 +81,17 @@ namespace ToDoApp
         {
             taskManagerService.DisplayAllTasks();
             string taskId = GetStringInput("Task ID: ");
-            // TODO: Add function to display details of specific taks  
+            ToDoTask? task = taskManagerService.GetTaskById(Int32.Parse(taskId));
+
+            task?.DisplayToDoTaskDetails();
+            PauseLoop();
+        }
+
+        static void UpdateToDoTask(TaskManagerService taskManagerService)
+        {
+            taskManagerService.DisplayAllTasks();
+            string taskId = GetStringInput("Task ID: ");
+            return;
         }
         // Helper methods
         static List<string> AddTaskObjectives()
@@ -136,6 +147,11 @@ namespace ToDoApp
                 
                 Console.WriteLine("Please enter y or n.");
             }
+        }
+        static void PauseLoop()
+        {
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadKey();
         }
     }    
 }

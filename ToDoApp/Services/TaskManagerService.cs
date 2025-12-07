@@ -53,8 +53,9 @@ namespace ToDoApp.Services
             return;
         }
 
-        public void UpdateTask()
-        {
+        public void UpdateTaskAsComplete()
+        {   
+
             return;
         }
 
@@ -85,6 +86,26 @@ namespace ToDoApp.Services
             // TODO: Display specied task using id
             // QUESTIONS: Can I access the tasklist like a hash map? to get O(1) time? Or should I convert it? If so, that's still another process? Is it in the right DS to begin with?
             return;
+        }
+
+        public ToDoTask? GetTaskById(int id)
+        {
+            if (_taskList.Count == 0)
+            {
+                Console.WriteLine("No tasks found.");
+                return null;
+            }
+
+            foreach (var task in _taskList)
+            {
+                if (task.Id == id)
+                {
+                    return task;
+                }
+            }
+
+            Console.WriteLine($"Cannot find task with specified ID: {id}");
+            return null;
         }
 
         public void MarkTaskAsComplete()
